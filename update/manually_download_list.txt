@@ -1,0 +1,57 @@
+wget -e "http_proxy=http://127.0.0.1:8787/" http://www.google.com
+wget -e "http_proxy=http://127.0.0.1:8787/" https://commondatastorage.googleapis.com/update-storage.core-os.net/amd64-usr/835.13.0/update.gz
+
+
+https://commondatastorage.googleapis.com/update-storage.core-os.net/amd64-usr/899.11.0/update.gz
+
+IP：139.196.148.101，139.196.174.117 ，139.196.204.247
+
+http://stable.release.core-os.net/
+
+/etc/coreos/update.conf
+e2fsck
+
+bash -x bash.sh 835.13.0
+
+后台更新
+update_engine_client -check_for_update
+
+前台更新
+update_engine_client -update
+
+update-engine
+
+curl -x 'https://krast:vpnsopasswords@S1.60in.com:443' -v https://www.baidu.com
+
+curl -x 'http://139.196.174.117:8787' -O https://commondatastorage.googleapis.com/update-storage.core-os.net/amd64-usr/899.11.0/update.gz
+wget https://commondatastorage.googleapis.com/update-storage.core-os.net/amd64-usr/991.0.0/update.gz
+curl --socks5 127.0.0.1:8787 https://www.google.com
+
+export HTTP_PROXY=http://127.0.0.1:8787
+curl -x 'http://127.0.0.1:8787' -O https://storage.googleapis.com/kubernetes-release/release/v1.1.8/bin/linux/amd64/kubectl
+
+[Service]
+Environment=HTTP_PROXY=https://krast:vpnsopasswords@s1.60in.com:443
+Environment=HTTPS_PROXY=https://krast:vpnsopasswords@s1.60in.com:443
+Environment=ALL_PROXY=socks://krast:vpnsopasswords@s1.60in.com:443
+
+https://commondatastorage.googleapis.com/update-storage.core-os.net/amd64-usr/835.13.0/update.gz
+https://commondatastorage.googleapis.com/update-storage.core-os.net/amd64-usr/899.11.0/update.gz
+https://commondatastorage.googleapis.com/update-storage.core-os.net/amd64-usr/991.0.0/update.gz
+
+docker run --name nginx -p 8080:80 -d nginx
+docker run --name nginx -p 8080:80 -v /home/coreos_updates/amd64-usr:/home/coreos_updates/amd64-usr:ro -v /home/nginx.conf:/etc/nginx/nginx.conf:ro -d nginx
+docker run --name nginx -p 80:80 -v /home/coreos_updates/amd64-usr:/home/coreos_updates/amd64-usr:ro -v /home/default.conf:/etc/nginx/conf.d/default.conf:ro -d nginx
+
+
+http://139.196.174.117:8080/
+http://139.196.174.117/835.13.0
+
+#############
+# lantern
+#############
+docker run -d -p 8787:8787 kent72/lantern
+
+
+00:16:3e:0c:19:e9
+00:16:3e:0c:19:70

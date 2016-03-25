@@ -1,0 +1,38 @@
+gpg --no-default-keyring --armor --secret-keyring ./rkt.sec --keyring ./rkt.pub --output quay.io-coreos-hyperkube-v1.1.8_coreos.0.aci.asc --detach-sig quay.io-coreos-hyperkube-v1.1.8_coreos.0.aci
+
+
+
+gpg --no-default-keyring --armor --secret-keyring ./rkt.sec --keyring ./rkt.pub --export krast@live.cn > pubkeys.gpg
+
+
+
+ WORKER_IP=${WORKER_IP} openssl req -new -key ${WORKER_FQDN}-worker-key.pem -out ${WORKER_FQDN}-worker.csr -subj "/CN=${WORKER_FQDN}" -config worker-openssl.cnf
+
+
+
+ curl -X PUT -d "value={\"Network\":\"$POD_NETWORK\",\"Backend\":{\"Type\":\"vxlan\"}}" "$ETCD_SERVER/v2/keys/coreos.com/network/config"
+
+
+
+
+gpg --no-default-keyring --armor --secret-keyring ./rkt.sec --keyring ./rkt.pub --output gcr.io-google_containers-pause-0.8.0.aci.asc --detach-sig gcr.io-google_containers-pause-0.8.0.aci
+
+gpg --no-default-keyring --armor --secret-keyring ./rkt.sec --keyring ./rkt.pub --output quay.io-coreos-flannel-0.5.5.aci.asc --detach-sig quay.io-coreos-flannel-0.5.5.aci
+
+/usr/libexec/sdnotify-proxy /run/flannel/sd.sock \
+  /usr/bin/docker run quay.io/coreos/flannel:0.5.5
+
+  curl -X PUT -d "value={\"Network\":\"172.17.0.0/16\",\"Backend\":{\"Type\":\"vxlan\"}}" "10.165.94.12:2379/v2/keys/coreos.com/network/config"
+
+  HTTP_PROXY=http://localhost:8787 docker -d
+
+  http://127.0.0.1:8080/api/v1/nodes/
+
+
+  iptables -t nat -N KUBE-PORTALS-CONTAINER
+  iptables -t nat -N KUBE-PORTALS-HOST
+  iptables -t nat -N KUBE-NODEPORT-HOST
+  iptables -t nat -N KUBE-NODEPORT-CONTAINER
+
+
+  curl http://127.0.0.1:8080/api/v1/watch/services?resourceVersion=3372

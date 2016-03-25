@@ -1,0 +1,7 @@
+# Replace $POD_NETWORK
+# Replace $ETCD_SERVER with one url (http://ip:port) from $ETCD_ENDPOINTS
+
+curl -X PUT -d "value={\"Network\":\"$POD_NETWORK\",\"Backend\":{\"Type\":\"vxlan\"}}" "$ETCD_SERVER/v2/keys/coreos.com/network/config"
+
+
+curl -X PUT -d "value={\"Network\":\"139.196.174.117\",\"Backend\":{\"Type\":\"vxlan\"}}" "http://139.196.174.117:2379/v2/keys/coreos.com/network/config"

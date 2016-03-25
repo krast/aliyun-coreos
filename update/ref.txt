@@ -1,0 +1,75 @@
+coreos update conf (/etc/coreos/update.conf, will install 723.3.0):
+----------------------------------------------------------------------------------------------------------------
+SERVER=http://192.168.122.1/723.3.0/
+GROUP=stable
+----------------------------------------------------------------------------------------------------------------
+
+nginx conf:
+----------------------------------------------------------------------------------------------------------------
+        error_page 405 =200 $uri;
+        location / {
+                root /home/coreos_updates/amd64-usr;
+        }
+
+        location /amd64-usr {
+                root /home/coreos_updates;
+        }
+----------------------------------------------------------------------------------------------------------------
+
+bash script to download images and generate XML:
+----------------------------------------------------------------------------------------------------------------
+#!/bin/bash
+
+URL="http://192.168.122.1"
+VERSION="$1"
+
+if [ ! -d $VERSION ]; then
+        mkdir -p $VERSION
+fi
+
+if [ ! -f $VERSION/update.gz ]; then
+        wget -qP $VERSION https://commondatastorage.googleapis.com/update-storage.core-os.net/amd64-usr/$VERSION/update.gz
+fi
+
+SIZE=$(stat -c %s ${VERSION}/update.gz)
+SHA1_b64=$(echo -ne "$(echo -n $(sha1sum ${VERSION}/update.gz | awk '{print $1}') | sed -e 's/../\\x&/g')" | base64 )
+SHA256_b64=$(echo -ne "$(echo -n $(sha256sum ${VERSION}/update.gz | awk '{print $1}') | sed -e 's/../\\x&/g')" | base64)
+
+XML="<?xml version=\"1.0\" encoding=\"UTF-8\"?>
+<response protocol=\"3.0\" server=\"update.core-os.net\">
+ <daystart elapsed_seconds=\"0\"></daystart>
+ <app appid=\"e96281a6-d1af-4bde-9a0a-97b76e56dc57\" status=\"ok\">
+  <updatecheck status=\"ok\">
+   <urls>
+    <url codebase=\"${URL}/${VERSION}/\"></url>
+   </urls>
+   <manifest version=\"${VERSION}\">
+    <packages>
+     <package hash=\"${SHA1_b64}\" name=\"update.gz\" size=\"${SIZE}\" required=\"false\"></package>
+    </packages>
+    <actions>
+     <action event=\"postinstall\" ChromeOSVersion=\"\" sha256=\"${SHA256_b64}\" needsadmin=\"false\" IsDelta=\"false\" DisablePayloadBackoff=\"true\"></action>
+    </actions>
+   </manifest>
+  </updatecheck>
+ </app>
+</response>"
+
+echo "$XML" > $VERSION/index.html
+----------------------------------------------------------------------------------------------------------------
+
+run script (it will download update image and create metadata file):
+./bash.sh 723.3.0
+
+----------------------------------------------------------------------------------------------------------------
+
+directory tree should be like:
+
+find /home/coreos_updates/
+/home/coreos_updates/
+/home/coreos_updates/amd64-usr
+/home/coreos_updates/amd64-usr/723.3.0
+/home/coreos_updates/amd64-usr/723.3.0/update.gz
+/home/coreos_updates/amd64-usr/723.3.0/index.html
+
+Then run "update_engine_client -update" inside CoreOS.

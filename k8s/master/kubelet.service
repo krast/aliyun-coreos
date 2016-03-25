@@ -1,0 +1,23 @@
+# /etc/systemd/system/kubelet.service
+#
+# Replace ${ADVERTISE_IP} with this node’s publicly routable IP.
+# Replace ${DNS_SERVICE_IP}
+# Replace ${K8S_VER} This will map to: quay.io/coreos/hyperkube:${K8S_VER} release
+# quay.io/coreos/hyperkube Replace with docker.io/krast0/hyperkube
+
+[Service]
+ExecStartPre=/usr/bin/mkdir -p /etc/kubernetes/manifests
+
+Environment=KUBELET_VERSION=${K8S_VER}
+ExecStart=/usr/lib/coreos/kubelet-wrapper \
+  --api_servers=http://127.0.0.1:8080 \
+  --register-node=false \
+  --allow-privileged=true \
+  --config=/etc/kubernetes/manifests \
+  --hostname-override=${ADVERTISE_IP} \
+  --cluster-dns=${DNS_SERVICE_IP} \
+  --cluster-domain=cluster.local
+Restart=always
+RestartSec=10
+[Install]
+WantedBy=multi-user.target
