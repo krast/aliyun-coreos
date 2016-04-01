@@ -1,0 +1,2 @@
+# <file system>         <dir>           <type>  <options>                       <dump> <pass>
+/dev/vda9               /               ext4    defaults,nobarrier      0       1

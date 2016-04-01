@@ -1,0 +1,11 @@
+iptables -F -t nat
+iptables -t nat -I POSTROUTING -s 192.168.20.0/24 -j SNAT --to-source 192.168.20.1
+iptables -t nat -A PREROUTING -d 192.168.20.1 -i eth0 -p tcp -m tcp --dport 22222 -j DNAT --to-destination 192.168.20.2:22
+iptables -t nat -I POSTROUTING -d 192.168.20.2 -p tcp --dport 80 -j SNAT --to 192.168.20.1
+iptables -t nat -A PREROUTING -d 192.168.20.1 -i eth0 -p tcp -m tcp --dport 22223 -j DNAT --to-destination 192.168.20.3:22
+iptables -t nat -I POSTROUTING -d 192.168.20.3 -p tcp --dport 80 -j SNAT --to 192.168.20.1
+
+iptables-save > /var/lib/iptables/rules-save
+systemctl enable iptables-restore
+
+echo "net.ipv4.ip_forward = 1" > /etc/sysctl.conf && sysctl -p

@@ -1,4 +1,6 @@
 # /etc/kubernetes/ssl/worker-openssl.cnf
+#
+# Replace $ENV::WORKER_IP
 
 [req]
 req_extensions = v3_req

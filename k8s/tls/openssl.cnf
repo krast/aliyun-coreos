@@ -1,7 +1,7 @@
+# /etc/kubernetes/ssl/openssl.cnf
+#
 # Replace ${K8S_SERVICE_IP}
 # Replace ${MASTER_HOST}
-# /etc/kubernetes/ssl/openssl.cnf
-
 
 [req]
 req_extensions = v3_req
